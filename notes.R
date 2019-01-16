@@ -23,3 +23,51 @@ insert_into <- function(x, y, where = 1) {
     cbind(x[lhs], y, x[-lhs])
   }
 }
+
+# best practice in API/package design: group similar functions together 
+# by giving them a common prefix so that RStudio can help you search quickly
+
+# use suffixes for variations on a theme
+
+# data arguments should always come first
+
+# library(conflicted) -> helps with package function name conflicts
+
+# type stability: what type of thing does this function return and is it adequate for most purposes
+# the easier it is to predict the output type of a function, the easier it is to understand that function
+
+
+map_dbl(mtcars, mean)
+
+means <- list(-10, 0, 10, 100)
+map(means, ~ rnorm(10, mean = .x))
+map(means, rnorm, n = 10)
+
+map(iris, ~ length(unique(.x)))
+
+
+library(ggplot2)
+# a list of data frames
+by_color <- split(diamonds, diamonds$color)
+# a vector of paths
+paths <- paste0(names(by_color), ".csv")
+
+map2(by_color, paths, ~ write.csv(.x, .y)) # displays output to the console that isn't useful
+walk2(by_color, paths, ~ write.csv(.x, .y)) # we just want the side effect of writing the files
+
+# compose value functions with map, compose effect functions with walk
+
+
+# automatically load packages:
+usethis::use_package("purrr", "depends")
+
+# see the setup.R file for a polite package installer
+
+
+
+
+
+
+
+
+

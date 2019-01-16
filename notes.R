@@ -63,6 +63,60 @@ usethis::use_package("purrr", "depends")
 
 # see the setup.R file for a polite package installer
 
+# for error handling: better not to add it to your function directly, 
+# this means your function is doing too many things
+# better to have a function responsible for this! -> decide what should happen, write a function to check it
+
+# see tidyverse style guide on writing good error messages
+
+# be explicit about where the problem was, then tell user what the expected value is
+# "where can't be mssing. where must be a positive integer." or something like this 
+
+
+
+
+urls <- c(
+  "https://google.com",
+  "https://en.wikipedia.org",
+  "asdfasdasdkfjlda"
+)
+
+# Fails
+contents <- urls %>%
+  map(readLines, warn = FALSE)
+
+# Always succeeds
+contents <- urls %>%
+  map(safely(readLines), warn = FALSE) %>%
+  transpose()
+
+success <- map_lgl(contents$error, is.null)
+
+# contents$result[success]
+# contents$error[success]
+# see charlotte's example for a better solution
+
+
+memoise::memoise() # adds a memory
+
+
+# S3 / oo programming
+
+mod <- lm(mpg ~ wt, data = mtcars)
+summary(mod)
+
+class(mod)
+str(mod)
+
+sloop::s3_class(mod)
+sloop::s3_dispatch(summary(mod))
+
+sloop::s3_get_method(summary.lm)
+
+sloop::s3_get_method(summary.default)
+
+
+
 
 
 
